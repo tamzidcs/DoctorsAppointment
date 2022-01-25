@@ -22,7 +22,6 @@ app.get("/Books", (req, res) => {
 */
 
 app.get("/Physicians", (req, res) => {
-    
     const query = 'SELECT physician_id,first_name,last_name from physician'
     pool.query(query, (error, results) => {
         if (error) {
@@ -33,8 +32,7 @@ app.get("/Physicians", (req, res) => {
 })
 
 app.get("/Appointments", (req, res) => {
-    
-    const query = 'SELECT appointment.patient_name,appointment.kind,appointment.time   FROM appointment,physician,physician_appointment WHERE physician_appointment.physician_id = physician.physician_id and physician_appointment.appointment_id = appointment.appointment_id and physician.physician_id ='+req.query.physician_id
+    const query = 'SELECT appointment.patient_name,appointment.kind,appointment.date_time::timestamp::time as time  FROM appointment,physician,physician_appointment WHERE physician_appointment.physician_id = physician.physician_id and physician_appointment.appointment_id = appointment.appointment_id and physician.physician_id ='+req.query.physician_id
     pool.query(query, (error, results) => {
         if (error) {
             throw error
